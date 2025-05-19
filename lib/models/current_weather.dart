@@ -14,12 +14,12 @@ class CurrentWeather {
     required DateTime sunrise,
     required DateTime sunset,
   }) {
+    this._sunset = sunset;
     this.city = city;
     this.description = description;
     this.currentTemp = currentTemp;
     this.currentTime = currentTime;
     this.sunrise = sunrise;
-    this.sunset = sunset;
   }
 
   String get city => _city;
@@ -77,6 +77,10 @@ class CurrentWeather {
     _sunset = value;
   }
 
+  static bool _isSameDay(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+
   factory CurrentWeather.fromOpenWeatherData(dynamic data) {
     final city = data['name'];
     final description = data['weather'][0]['description'];
@@ -93,10 +97,6 @@ class CurrentWeather {
       sunrise: sunrise,
       sunset: sunset,
     );
-  }
-
-  bool _isSameDay(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 
   @override
