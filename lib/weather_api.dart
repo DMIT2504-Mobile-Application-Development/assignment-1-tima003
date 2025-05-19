@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 
 const String weatherApiKey = 'YOUR_API_KEY_HERE';

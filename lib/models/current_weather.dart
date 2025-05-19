@@ -12,7 +12,7 @@ class CurrentWeather {
     required double currentTemp,
     required DateTime currentTime,
     required DateTime sunrise,
-    required DateTime sunset
+    required DateTime sunset,
   }) {
     this.city = city;
     this.description = description;
@@ -61,7 +61,7 @@ class CurrentWeather {
     if (!_isSameDay(value, _currentTime)) {
       throw Exception('Sunrise must be on the same day as current time');
     }
-    if (_sunset != null && value.isAfter(_sunset)) {
+    if (value.isAfter(_sunset)) {
       throw Exception('Sunrise cannot be after sunset');
     }
     _sunrise = value;
@@ -71,13 +71,13 @@ class CurrentWeather {
     if (!_isSameDay(value, _currentTime)) {
       throw Exception('Sunset must be on the same day as current time');
     }
-    if (_sunrise != null && value.isBefore(_sunrise)) {
+    if (value.isBefore(_sunrise)) {
       throw Exception('Sunset cannot be before sunrise');
     }
     _sunset = value;
   }
 
-  factory CurrentWeather.fromJson(dynamic data) {
+  factory CurrentWeather.fromOpenWeatherData(dynamic data) {
     final city = data['name'];
     final description = data['weather'][0]['description'];
     final temp = (data['main']['temp'] as num).toDouble();
@@ -91,7 +91,7 @@ class CurrentWeather {
       currentTemp: temp,
       currentTime: currentTime,
       sunrise: sunrise,
-      sunset: sunset
+      sunset: sunset,
     );
   }
 
