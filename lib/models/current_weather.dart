@@ -14,7 +14,7 @@ class CurrentWeather {
     required DateTime sunrise,
     required DateTime sunset,
   }) {
-    this._sunset = sunset;
+    _sunset = sunset;
     this.city = city;
     this.description = description;
     this.currentTemp = currentTemp;
@@ -23,26 +23,18 @@ class CurrentWeather {
   }
 
   String get city => _city;
-  String get description => _description;
-  double get currentTemp => _currentTemp;
-  DateTime get currentTime => _currentTime;
-  DateTime get sunrise => _sunrise;
-  DateTime get sunset => _sunset;
-
   set city(String value) {
-    if (value.trim().isEmpty) {
-      throw Exception('City cannot be empty');
-    }
+    if (value.trim().isEmpty) throw Exception('City cannot be empty');
     _city = value;
   }
 
+  String get description => _description;
   set description(String value) {
-    if (value.trim().isEmpty) {
-      throw Exception('Description cannot be empty');
-    }
+    if (value.trim().isEmpty) throw Exception('Description cannot be empty');
     _description = value;
   }
 
+  double get currentTemp => _currentTemp;
   set currentTemp(double value) {
     if (value < -100 || value > 100) {
       throw Exception('Temperature must be between -100 and 100');
@@ -50,6 +42,7 @@ class CurrentWeather {
     _currentTemp = value;
   }
 
+  DateTime get currentTime => _currentTime;
   set currentTime(DateTime value) {
     if (value.isAfter(DateTime.now())) {
       throw Exception('Current time cannot be in the future');
@@ -57,6 +50,7 @@ class CurrentWeather {
     _currentTime = value;
   }
 
+  DateTime get sunrise => _sunrise;
   set sunrise(DateTime value) {
     if (!_isSameDay(value, _currentTime)) {
       throw Exception('Sunrise must be on the same day as current time');
@@ -67,6 +61,7 @@ class CurrentWeather {
     _sunrise = value;
   }
 
+  DateTime get sunset => _sunset;
   set sunset(DateTime value) {
     if (!_isSameDay(value, _currentTime)) {
       throw Exception('Sunset must be on the same day as current time');
@@ -75,10 +70,6 @@ class CurrentWeather {
       throw Exception('Sunset cannot be before sunrise');
     }
     _sunset = value;
-  }
-
-  static bool _isSameDay(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 
   factory CurrentWeather.fromOpenWeatherData(dynamic data) {
@@ -97,6 +88,10 @@ class CurrentWeather {
       sunrise: sunrise,
       sunset: sunset,
     );
+  }
+
+  bool _isSameDay(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 
   @override
